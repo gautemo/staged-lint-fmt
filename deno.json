@@ -1,0 +1,14 @@
+{
+  "name": "@gaute/staged-lint-fmt",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": "./src/mod.ts",
+  "tasks": {
+    "staged-lint-fmt": "deno run --allow-read --allow-run mod.ts"
+  },
+  "fmt": {
+    "lineWidth": 120,
+    "semiColons": false,
+    "singleQuote": true
+  }
+}
