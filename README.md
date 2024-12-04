@@ -8,8 +8,4 @@ Deno lint and format staged file
 - [ ] too close changes in staged and unstaged files
 - [ ] commit not from root folder
 
-# content content content content content content <<<<<<< Updated upstream
-
-content content content content content content
-
->>>>>>> Stashed changes content
+content content content content content content content content content
