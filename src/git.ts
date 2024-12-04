@@ -1,3 +1,5 @@
+import { logError, logInfo } from './log.ts'
+
 let stashPerformed = false
 
 export function getModifiedFiles(staged: boolean) {
@@ -35,9 +37,9 @@ function runGit(args: string[]) {
   })
   const { code, stdout } = command.outputSync()
   if (code !== 0) {
-    console.error('%cstaged-lint-fmt failed due to a git error.', 'color: red')
+    logError('failed due to a git error.')
     if (stashPerformed) {
-      console.error('Look at git stash list for potential lost changes.')
+      logInfo('Look at git stash list for potential lost changes.')
     }
     Deno.exit(1)
   }

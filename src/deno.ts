@@ -1,5 +1,7 @@
+import { logInfo } from './log.ts'
+
 export function runDeno(arg: 'lint' | 'fmt', files: string[]) {
-  console.log(`deno ${arg}:`)
+  logInfo(`deno ${arg}:`)
   const command = new Deno.Command(Deno.execPath(), {
     args: [arg, ...files],
   })
@@ -8,6 +10,6 @@ export function runDeno(arg: 'lint' | 'fmt', files: string[]) {
   if (msg.includes('No target files found')) {
     return true
   }
-  console.log(msg)
+  logInfo(msg)
   return code === 0
 }

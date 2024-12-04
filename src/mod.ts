@@ -1,9 +1,10 @@
 import { runDeno } from './deno.ts'
 import { getModifiedFiles, gitAdd, gitStashKeepStaged, gitStashPop } from './git.ts'
+import { logInfo } from './log.ts'
 
 const stagedFiles = getModifiedFiles(true)
 if (stagedFiles.length === 0) {
-  console.log('staged-lint-fmt skipped: no staged files')
+  logInfo('skipped: no staged files')
   Deno.exit(0)
 }
 const modifiedWorkdirFiles = getModifiedFiles(false)
