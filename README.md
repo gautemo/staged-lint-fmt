@@ -1,7 +1,6 @@
 # staged-lint-fmt
 
-Deno lint and format staged files
-
+Deno lint and format staged file
 
 ## TODO
 
@@ -9,12 +8,8 @@ Deno lint and format staged files
 - [ ] too close changes in staged and unstaged files
 - [ ] commit not from root folder
 
+# content content content content content content <<<<<<< Updated upstream
 
-content
-content
-content
-content
-content
-content
-content
-content
+content content content content content content
+
+>>>>>>> Stashed changes content
