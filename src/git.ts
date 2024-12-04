@@ -1,5 +1,9 @@
-export function getStaged() {
-  const stagedFiles = runGit(['diff', '--name-only', '--staged']).split('\n').filter(Boolean)
+export function getModifiedFiles(staged: boolean) {
+  const args = ['diff', '--name-only']
+  if(staged) {
+    args.push('--staged')
+  }
+  const stagedFiles = runGit(args).split('\n').filter(Boolean)
   if (stagedFiles.length === 0) {
     console.log('staged-lint-fmt skipped: no staged files')
     Deno.exit(0)

@@ -1,16 +1,24 @@
 import { runDeno } from './deno.ts'
-import { getStaged, gitAdd, gitStashKeepStaged, gitStashPop } from './git.ts'
+import { getModifiedFiles, gitAdd, gitStashKeepStaged, gitStashPop } from './git.ts'
 
-const stagedFiles = getStaged()
-gitStashKeepStaged()
+const stagedFiles = getModifiedFiles(true)
+const modifiedWorkdirFiles = getModifiedFiles(false)
+const stashNeeded = stagedFiles.some(f => modifiedWorkdirFiles.includes(f))
+if(stashNeeded) {
+  gitStashKeepStaged()
+}
 
 const successLint = runDeno('lint', stagedFiles)
 if (!successLint) {
-  gitAdd(stagedFiles)
-  gitStashPop()
+  if(stashNeeded) {
+    gitAdd(stagedFiles)
+    gitStashPop()
+  }
   Deno.exit(1)
 }
 runDeno('fmt', stagedFiles)
 
 gitAdd(stagedFiles)
-gitStashPop()
+if(stashNeeded) {
+  gitStashPop()
+}
