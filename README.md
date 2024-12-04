@@ -9,7 +9,7 @@ Deno lint and format staged file
 - [ ] commit not from root folder
 
 content\
-staged\
+stagedwithchange\
 content\
 content\
 content\
