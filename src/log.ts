@@ -1,7 +1,9 @@
+import { blue, red } from '@std/fmt/colors'
+
 export function logInfo(msg: string) {
-  console.log(`%c[staged-lint-fmt]%c ${msg}`, 'color: yellow', 'color: unset')
+  console.log(`${blue('[staged-lint-fmt]')} ${msg}`)
 }
 
 export function logError(msg: string) {
-  console.error(`%c[staged-lint-fmt] ${msg}`, 'color: red')
+  console.error(red(`[staged-lint-fmt] ${msg}`))
 }
