@@ -4,7 +4,7 @@
   "license": "MIT",
   "exports": "./src/mod.ts",
   "tasks": {
-    "staged-lint-fmt": "deno run --allow-read --allow-run mod.ts"
+    "staged-lint-fmt": "deno run --allow-read --allow-run src/mod.ts"
   },
   "fmt": {
     "lineWidth": 120,

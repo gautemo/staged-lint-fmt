@@ -1,16 +1,5 @@
 export function getStaged() {
-  const command = new Deno.Command('git', {
-    args: [
-      'diff',
-      '--name-only',
-      '--staged',
-    ],
-  })
-  const {code, stdout, stderr} = command.outputSync()
-  if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr))
-  }
-  const stagedFiles = new TextDecoder().decode(stdout).split('\n').filter(Boolean)
+  const stagedFiles = runGit(['diff', '--name-only', '--staged']).split('\n').filter(Boolean)
   if (stagedFiles.length === 0) {
     console.log('staged-lint-fmt skipped: no staged files')
     Deno.exit(0)
@@ -19,41 +8,31 @@ export function getStaged() {
 }
 
 export function gitAdd(files: string[]) {
-  const command = new Deno.Command('git', {
-    args: [
-      'add',
-      ...files,
-    ],
-  })
-  const {code, stderr} = command.outputSync()
-  if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr))
-  }
+  runGit(['add', ...files])
 }
 
-export function gitStash() {
-  const command = new Deno.Command('git', {
-    args: [
-      'stash',
-      'push',
-      '--keep-index',
-    ],
-  })
-  const {code, stderr} = command.outputSync()
-  if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr))
-  }
+/*
+git stash push --staged            # Stash staged changes
+git stash                          # Stash everything else
+git stash pop stash@{1}            # Restore staged changes stash
+*/
+export function gitStashKeepStaged() {
+  runGit(['stash', 'push', '--staged'])
+  runGit(['stash'])
+  runGit(['stash', 'pop', 'stash@{1}'])
 }
 
 export function gitStashPop() {
+  runGit(['stash', 'pop'])
+}
+
+function runGit(args: string[]) {
   const command = new Deno.Command('git', {
-    args: [
-      'stash',
-      'pop',
-    ],
+    args,
   })
-  const {code, stderr} = command.outputSync()
+  const { code, stdout, stderr } = command.outputSync()
   if (code !== 0) {
     throw new Error(new TextDecoder().decode(stderr))
   }
+  return new TextDecoder().decode(stdout)
 }
