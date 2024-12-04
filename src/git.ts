@@ -33,7 +33,8 @@ function runGit(args: string[]) {
   })
   const { code, stdout, stderr } = command.outputSync()
   if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr))
+    console.error(new TextDecoder().decode(stderr))
+    Deno.exit(1)
   }
   return new TextDecoder().decode(stdout)
 }
