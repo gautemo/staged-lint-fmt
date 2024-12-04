@@ -3,9 +3,9 @@ export function runDeno(arg: 'lint' | 'fmt', files: string[]) {
   const command = new Deno.Command(Deno.execPath(), {
     args: [arg, ...files],
   })
-  const {code, stderr} = command.outputSync()
+  const { code, stderr } = command.outputSync()
   const msg = new TextDecoder().decode(stderr)
-  if(msg.includes('error: No target files found.')) {
+  if (msg.includes('No target files found')) {
     return true
   }
   console.log(msg)
