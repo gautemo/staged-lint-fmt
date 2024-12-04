@@ -17,9 +17,10 @@ git stash                          # Stash everything else
 git stash pop stash@{1}            # Restore staged changes stash
 */
 export function gitStashKeepStaged() {
-  runGit(['stash', 'push', '--staged'])
-  runGit(['stash'])
+  runGit(['stash', 'push', '--staged', '-m', 'staged-lint-fmt staged stash'])
+  runGit(['stash', '-m', 'staged-lint-fmt working directory stash'])
   runGit(['stash', 'pop', 'stash@{1}'])
+  Deno.exit(1)
 }
 
 export function gitStashPop() {
