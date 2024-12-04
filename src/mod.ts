@@ -6,6 +6,7 @@ gitStashKeepStaged()
 
 const successLint = runDeno('lint', stagedFiles)
 if (!successLint) {
+  gitAdd(stagedFiles)
   gitStashPop()
   Deno.exit(1)
 }
