@@ -1,6 +1,13 @@
 import { runDeno } from './deno.ts'
 import { getModifiedFiles, gitAdd, gitStashKeepStaged, gitStashPop } from './git.ts'
-import { logInfo } from './log.ts'
+import { logError, logInfo } from './log.ts'
+import { parseArgs } from '@std/cli/parse-args'
+
+const args = parseArgs(Deno.args)
+if (args['only-fmt'] && args['only-lint']) {
+  logError('invalid args')
+  Deno.exit(1)
+}
 
 const stagedFiles = getModifiedFiles(true)
 if (stagedFiles.length === 0) {
@@ -13,15 +20,19 @@ if (stashNeeded) {
   gitStashKeepStaged()
 }
 
-const successLint = runDeno('lint', stagedFiles)
-if (!successLint) {
-  if (stashNeeded) {
-    gitAdd(stagedFiles)
-    gitStashPop()
+if (!args['only-fmt']) {
+  const successLint = runDeno('lint', stagedFiles)
+  if (!successLint) {
+    if (stashNeeded) {
+      gitAdd(stagedFiles)
+      gitStashPop()
+    }
+    Deno.exit(1)
   }
-  Deno.exit(1)
 }
-runDeno('fmt', stagedFiles)
+if (!args['only-lint']) {
+  runDeno('fmt', stagedFiles)
+}
 
 gitAdd(stagedFiles)
 if (stashNeeded) {

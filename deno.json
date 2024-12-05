@@ -12,6 +12,7 @@
     "singleQuote": true
   },
   "imports": {
+    "@std/cli": "jsr:@std/cli@^1.0.7",
     "@std/fmt": "jsr:@std/fmt@^1.0.3"
   }
 }
