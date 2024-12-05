@@ -3,12 +3,12 @@ import { logError, logInfo } from './log.ts'
 let stashPerformed = false
 
 export function getModifiedFiles(staged: boolean) {
+  const rootPath = runGit(['rev-parse', '--show-toplevel']).trim()
   const args = ['diff', '--name-only']
   if (staged) {
     args.push('--staged')
   }
-  const stagedFiles = runGit(args).split('\n').filter(Boolean)
-  return stagedFiles
+  return runGit(args).split('\n').filter(Boolean).map((file) => `${rootPath}/${file}`)
 }
 
 export function gitAdd(files: string[]) {
